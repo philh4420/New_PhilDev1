@@ -29,7 +29,8 @@ npm install
 
 # If the install fails (e.g., due to peer dependency issues with React 19+), use:
 npm install --legacy-peer-deps
-ℹ️ --legacy-peer-deps is used as a workaround for older packages that haven't updated their peer dependencies for React 19 compatibility.
+ℹ️ --legacy-peer-deps is used as a workaround for older packages that haven't updated 
+their peer dependencies for React 19 compatibility.
 
 # 4. Start the development server
 npm run dev
@@ -78,7 +79,8 @@ GitHub Pages
 Static export to VPS
 
 🌍 Custom Domain
-If deployed via Vercel, Netlify, or similar, you can easily connect a custom domain from their dashboard.
+If deployed via Vercel, Netlify, or similar, you can easily connect a 
+custom domain from their dashboard.
 
 👤 Author
 PhilDev

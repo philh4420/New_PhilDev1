@@ -119,14 +119,14 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 1.7, ease: "easeOut" }}
-            className="absolute z-50 flex gap-2 items-center px-4
+            className="absolute z-50 flex gap-2 px-4
                        right-9 top-4 sm:top-4 sm:right-4
                        sm:flex-row flex-col sm:items-center items-end"
           >
             {!voicePlaying ? (
               <button
                 onClick={playIntro}
-                className="px-4 py-2 bg-teal-500 text-white font-bold rounded-full shadow hover:bg-teal-600 transition"
+                className="px-4 py-2 bg-teal-500 text-black font-bold rounded-full shadow hover:bg-teal-600 transition"
               >
                 ▶ Play Intro
               </button>

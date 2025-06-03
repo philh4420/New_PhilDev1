@@ -20,26 +20,6 @@ const Footer = () => {
 
   return (
     <>
-      {/* Scroll to Top Button */}
-      <AnimatePresence>
-        {showScrollTop && (
-          <motion.button
-            key="scrollToTop"
-            type="button"
-            onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-teal-600 hover:bg-teal-700 text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            initial={{ opacity: 0, y: 40, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            aria-label="Scroll to top"
-            tabIndex={0}
-          >
-            <ArrowUp className="h-5 w-5" />
-          </motion.button>
-        )}
-      </AnimatePresence>
-
       {/* Footer */}
       <motion.footer
         className="py-12 px-4 sm:px-6 lg:px-8"

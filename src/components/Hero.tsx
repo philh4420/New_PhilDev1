@@ -20,7 +20,6 @@ const Hero = () => {
       showCursor: true,
       cursorChar: "|",
     });
-
     return () => typed.destroy();
   }, []);
 
@@ -28,7 +27,6 @@ const Hero = () => {
     const timeout = setTimeout(() => {
       setButtonsVisible(false);
     }, 12000);
-
     return () => clearTimeout(timeout);
   }, [voicePlaying]);
 
@@ -68,6 +66,11 @@ const Hero = () => {
         setFadeOverlay(true);
       };
     }
+
+    // Focus trap while voice is playing
+    if (sectionRef.current) {
+      sectionRef.current.setAttribute("aria-live", "polite");
+    }
   };
 
   const skipIntro = () => {
@@ -93,15 +96,17 @@ const Hero = () => {
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 0.6 }}
+      role="region"
+      aria-labelledby="hero-heading"
     >
       <ShaderBackground />
       <audio ref={audioRef} src="/assets/intro.mp3" preload="auto" />
 
-      {/* Background Overlays */}
+      {/* Background overlays */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900/60 via-slate-800/40 to-teal-900/50 pointer-events-none" />
       <div className="absolute inset-0 bg-black/20 pointer-events-none" />
 
-      {/* Fade Overlay on Audio End */}
+      {/* Fade overlay on audio end */}
       {fadeOverlay && (
         <motion.div
           className="absolute inset-0 bg-black/50 pointer-events-none z-10"
@@ -119,21 +124,21 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 1.7, ease: "easeOut" }}
-            className="absolute z-50 flex gap-2 px-4
-                       right-9 top-4 sm:top-4 sm:right-4
-                       sm:flex-row flex-col sm:items-center items-end"
+            className="absolute z-50 flex flex-wrap gap-2 px-4
+                       right-6 top-4 sm:top-4 sm:right-4
+                       justify-end sm:justify-end"
           >
             {!voicePlaying ? (
               <button
                 onClick={playIntro}
-                className="px-4 py-2 bg-teal-500 text-black font-bold rounded-full shadow hover:bg-teal-600 transition"
+                className="px-6 py-3 text-sm sm:text-base bg-teal-500 text-black font-bold rounded-full shadow hover:bg-teal-600 transition"
               >
                 ▶ Play Intro
               </button>
             ) : (
               <button
                 onClick={skipIntro}
-                className="px-4 py-2 bg-yellow-500 text-black font-bold rounded-full shadow hover:bg-yellow-600 transition"
+                className="px-6 py-3 text-sm sm:text-base bg-yellow-500 text-black font-bold rounded-full shadow hover:bg-yellow-600 transition"
               >
                 ⏭ Skip Intro
               </button>
@@ -142,11 +147,12 @@ const Hero = () => {
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-        <div className="max-w-4xl">
+      {/* Hero Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 text-center">
+        <div className="max-w-4xl mx-auto">
           <motion.h1
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 font-[Poppins] perspective-1000 drop-shadow-2xl"
+            id="hero-heading"
+            className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 font-[Poppins] perspective-1000 drop-shadow-2xl"
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             variants={{
@@ -176,7 +182,7 @@ const Hero = () => {
           </motion.h1>
 
           <motion.p
-            className="text-xl sm:text-2xl text-white mb-8 max-w-2xl font-[Inter] drop-shadow-lg"
+            className="text-base sm:text-xl lg:text-2xl text-white mb-8 max-w-2xl mx-auto font-[Inter] drop-shadow-lg"
             initial={{ y: 40, opacity: 0 }}
             animate={isInView ? { y: 0, opacity: 1 } : {}}
             transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
@@ -185,7 +191,7 @@ const Hero = () => {
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col sm:flex-row justify-center gap-4"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.9, duration: 0.6, ease: "easeOut" }}
@@ -193,7 +199,7 @@ const Hero = () => {
             <Button
               onClick={() => scrollTo("#portfolio")}
               size="lg"
-              className="group bg-white text-black hover:bg-teal-50 px-8 py-4 rounded-full font-semibold transition-all duration-500 hover:scale-110 hover:shadow-2xl transform hover:-translate-y-2 hover:rotate-1"
+              className="group bg-white text-black hover:bg-teal-50 px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold transition-all duration-500 hover:scale-110 hover:shadow-2xl transform hover:-translate-y-2 hover:rotate-1"
             >
               View My Work
             </Button>
@@ -201,7 +207,7 @@ const Hero = () => {
               onClick={() => scrollTo("#contact")}
               variant="outline"
               size="lg"
-              className="group bg-yellow-500 text-black hover:bg-yellow-600 px-8 py-4 rounded-full font-semibold transition-all duration-500 hover:scale-110 transform hover:-translate-y-2 hover:-rotate-1 hover:shadow-2xl"
+              className="group bg-yellow-500 text-black hover:bg-yellow-600 px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold transition-all duration-500 hover:scale-110 transform hover:-translate-y-2 hover:-rotate-1 hover:shadow-2xl"
             >
               Let's Work Together
             </Button>

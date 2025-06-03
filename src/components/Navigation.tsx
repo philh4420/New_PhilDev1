@@ -55,7 +55,7 @@ const Navigation = () => {
             onClick={() => scrollToSection("hero")}
           >
             <img
-  src="/assets/img/logo.png"
+  src="/assets/img/logo.webp"
   alt="PhilDev logo"
   className="w-18 h-18 object-contain rounded-full shadow-lg transition-transform duration-300 hover:scale-105"
 />

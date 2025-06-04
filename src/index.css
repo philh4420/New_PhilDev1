@@ -1,11 +1,5 @@
-/* Import modern fonts */
-/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap'); */
-
 /* Tailwind CSS */
 @import "tailwindcss";
-
-
-
 
 @layer base {
   :root {
@@ -440,6 +434,16 @@
 .shadow-neon {
   box-shadow: 0 0 20px rgba(12, 125, 157, 0.5), 0 0 40px rgba(12, 125, 157, 0.3);
 }
+
+      /* Keyframes for animated bars */
+@keyframes wave {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(2); }
+}
+.animate-wave {
+  animation: wave 1s infinite ease-in-out;
+}
+
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {

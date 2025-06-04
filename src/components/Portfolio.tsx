@@ -1,3 +1,4 @@
+// src/components/Portfolio.tsx
 import React, { useRef, useState, useMemo } from "react";
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,7 @@ interface Project {
 
 const Portfolio: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedTech, setSelectedTech] = useState<string[]>([]);
   const [lightboxIsOpen, setLightboxIsOpen] = useState(false);
@@ -31,16 +32,9 @@ const Portfolio: React.FC = () => {
     {
       title: "Weather App",
       description: "Real-time weather updates with interactive UI.",
-      tech: ["HTML5", "CSS3", "JavaScript","Weather and OpenWeatherMap API's"],
+      tech: ["HTML5", "CSS3", "JavaScript", "Weather and OpenWeatherMap API's"],
       image: "/assets/img/Weather-App1.webp",
       liveUrl: "https://weather-app.phils-portfolio.co.uk/",
-    },
-    {
-      title: "E-commerce Platform",
-      description: "Modern shopping experience with responsive design.",
-      tech: ["HTML5", "CSS3", "JavaScript"],
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
-      liveUrl: "#",
     },
     {
       title: "E-commerce Platform",
@@ -94,9 +88,7 @@ const Portfolio: React.FC = () => {
 
   const filteredProjects = useMemo(() => {
     if (selectedTech.length === 0) return projects;
-    return projects.filter(p =>
-      selectedTech.every(t => p.tech.includes(t))
-    );
+    return projects.filter(p => selectedTech.every(t => p.tech.includes(t)));
   }, [projects, selectedTech]);
 
   const handleFilterToggle = (tech: string) => {
@@ -118,11 +110,8 @@ const Portfolio: React.FC = () => {
     setLightboxIsOpen(true);
   };
 
-  const closeLightbox = () => {
-    setLightboxIsOpen(false);
-  };
-
-  return (
+  const closeLightbox = () => setLightboxIsOpen(false);
+    return (
     <motion.section
       ref={sectionRef}
       id="portfolio"
@@ -155,7 +144,6 @@ const Portfolio: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Animated Filter Tags */}
         <motion.div
           className="flex flex-wrap justify-center gap-2 mb-12"
           initial="hidden"
@@ -174,6 +162,7 @@ const Portfolio: React.FC = () => {
                   ? "bg-teal-600 text-white border-teal-600"
                   : "bg-white text-gray-700 border-gray-300 hover:border-teal-500"
               }`}
+              aria-label={`Filter by ${tech}`}
               variants={{
                 hidden: { opacity: 0, y: 10 },
                 visible: { opacity: 1, y: 0 },
@@ -201,7 +190,7 @@ const Portfolio: React.FC = () => {
           </Carousel>
         </div>
 
-        {/* Masonry Layout for Desktop */}
+        {/* Masonry Layout */}
         <div className="hidden md:block">
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
             {filteredProjects.map((project, index) => (
@@ -225,7 +214,6 @@ const Portfolio: React.FC = () => {
         </div>
       </div>
 
-      {/* Lightbox */}
       <AnimatePresence>
         {lightboxIsOpen && (
           <Lightbox
@@ -268,6 +256,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     onClick={(e) => {
       if (!disableLightbox && onClick) onClick();
     }}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" && !disableLightbox && onClick) onClick();
+    }}
+    aria-label={`${project.title} project card`}
   >
     <div className="relative w-full aspect-video overflow-hidden rounded-t-2xl">
       <LazyLoadImage
@@ -327,3 +319,4 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 );
 
 export default Portfolio;
+

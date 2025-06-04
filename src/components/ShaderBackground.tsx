@@ -6,11 +6,19 @@ const ShaderBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reglRef = useRef<Regl | null>(null);
   const [mouse, setMouse] = useState<[number, number]>([0.5, 0.5]);
-  const [scroll, setScroll] = useState(0);
+  const scrollRef = useRef(0);
+  const frameRef = useRef<ReturnType<Regl['frame']> | null>(null);
 
-  // Scroll sync
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   useEffect(() => {
-    const handleScroll = () => setScroll(window.scrollY * 0.01);
+    const handleScroll = () => {
+      requestAnimationFrame(() => {
+        scrollRef.current = window.scrollY * 0.01;
+      });
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -55,7 +63,7 @@ const ShaderBackground = () => {
         float c = rand(i + vec2(0.0, 1.0));
         float d = rand(i + vec2(1.0, 1.0));
         vec2 u = f * f * (3.0 - 2.0 * f);
-        return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+        return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
       }
 
       float fbm(vec2 st) {
@@ -75,20 +83,13 @@ const ShaderBackground = () => {
         float dist = distance(uv, m);
 
         vec3 base = mix(vec3(0.02, 0.36, 0.48), vec3(1.0, 0.77, 0.2), uv.y + 0.1 * sin(time));
+        base += fbm(uv * 3.0 + time * 0.2) * 0.1;
+        base += fbm(uv * 6.0 - time * 0.15) * 0.07;
+        base += fbm(uv * 12.0 + time * 0.4) * 0.03;
 
-        float layer1 = fbm(uv * 3.0 + time * 0.2);
-        float layer2 = fbm(uv * 6.0 - time * 0.15);
-        float layer3 = fbm(uv * 12.0 + time * 0.4);
-
-        base += layer1 * 0.1;
-        base += layer2 * 0.07;
-        base += layer3 * 0.03;
-
-        // Simulated glow via distance from mouse
         float glow = 0.25 / (dist * dist + 0.05);
         base += glow * vec3(1.0, 0.95, 0.8);
 
-        // Subtle blur simulation via radial fade
         float vignette = smoothstep(1.2, 0.6, distance(uv, vec2(0.5)));
         base *= vignette;
 
@@ -108,7 +109,7 @@ const ShaderBackground = () => {
         ],
       },
       uniforms: {
-        time: () => scroll,
+        time: () => scrollRef.current,
         resolution: ({ viewportWidth, viewportHeight }) => [viewportWidth, viewportHeight],
         mouse: () => mouse,
       },
@@ -116,34 +117,55 @@ const ShaderBackground = () => {
       primitive: 'triangle strip',
     });
 
-    const frame = regl.frame(() => {
-      regl.clear({ color: [0, 0, 0, 0], depth: 1 });
-      draw();
-    });
-
-    const handleResize = () => {
-      if (!canvas) return;
-      const rect = canvas.getBoundingClientRect();
+    const resizeCanvas = () => {
       const ratio = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * ratio;
       canvas.height = rect.height * ratio;
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      setMouse([e.clientX / window.innerWidth, e.clientY / window.innerHeight]);
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('orientationchange', resizeCanvas);
+
+    const handlePointer = (e: MouseEvent | TouchEvent) => {
+      let x = 0.5;
+      let y = 0.5;
+      if ('touches' in e && e.touches.length > 0) {
+        x = e.touches[0].clientX / window.innerWidth;
+        y = e.touches[0].clientY / window.innerHeight;
+      } else if ('clientX' in e) {
+        x = e.clientX / window.innerWidth;
+        y = e.clientY / window.innerHeight;
+      }
+      setMouse([x, y]);
     };
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handlePointer);
+    window.addEventListener('click', handlePointer);
+    window.addEventListener('touchstart', handlePointer);
+
+    if (!prefersReducedMotion) {
+      frameRef.current = regl.frame(() => {
+        regl.clear({ color: [0, 0, 0, 0], depth: 1 });
+        draw();
+      });
+    } else {
+      draw(); // just draw once
+    }
 
     return () => {
-      frame.cancel();
+      frameRef.current?.cancel();
       regl.destroy();
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('orientationchange', resizeCanvas);
+      window.removeEventListener('mousemove', handlePointer);
+      window.removeEventListener('click', handlePointer);
+      window.removeEventListener('touchstart', handlePointer);
     };
-  }, [mouse, scroll]);
+  }, [mouse, prefersReducedMotion]);
 
   return (
     <AnimatePresence>
@@ -154,6 +176,7 @@ const ShaderBackground = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 1.2 }}
+        aria-hidden="true"
         style={{ zIndex: -1 }}
       />
     </AnimatePresence>

@@ -2,8 +2,6 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Mail, MapPin, Send, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -25,55 +23,72 @@ const Contact = () => {
   } = useForm<FormData>({ mode: "onTouched" });
 
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const { toast } = useToast();
-
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const ariaLiveRef = useRef<HTMLDivElement | null>(null);
+
+  const { toast } = useToast();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const onSubmit = async (data: FormData) => {
     const token = recaptchaRef.current?.getValue();
     if (!token) {
       toast({
-        title: "reCAPTCHA validation failed",
-        description: "Please complete the reCAPTCHA.",
+        title: "reCAPTCHA required",
+        description: "Please confirm you're not a bot.",
         variant: "destructive",
       });
       return;
     }
 
-    const templateParams = {
-      name: data.name,
-      email: data.email,
-      subject: data.subject,
-      message: data.message,
-    };
-
     try {
       await emailjs.send(
         "service_2cclxbm",
         "template_yn3glut",
-        templateParams,
+        {
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+        },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
       toast({
         title: "Message sent!",
-        description:
-          "Thanks for reaching out — I’ll respond within 3 business days.",
+        description: "Thanks for reaching out — I’ll respond within 3 business days.",
+        variant: "success",
       });
 
       reset();
       recaptchaRef.current?.reset();
       setShowSuccess(true);
+      if (ariaLiveRef.current) {
+        ariaLiveRef.current.innerText = "Message sent successfully!";
+      }
+
       setTimeout(() => setShowSuccess(false), 5000);
     } catch (error) {
       console.error("EmailJS Error:", error);
       toast({
-        title: "Error sending message",
-        description:
-          "Please try again later or email me directly at info@phils-portfolio.co.uk.",
+        title: "Failed to send message",
+        description: "Please try again or email me directly: info@phils-portfolio.co.uk",
         variant: "destructive",
+      });
+
+      if (ariaLiveRef.current) {
+        ariaLiveRef.current.innerText = "There was an error sending the message.";
+      }
+    }
+  };
+
+  const handleValidationErrors = () => {
+    const firstError = Object.values(errors)[0];
+    if (firstError?.message) {
+      toast({
+        title: "Form error",
+        description: String(firstError.message),
+        variant: "info",
       });
     }
   };
@@ -91,6 +106,13 @@ const Contact = () => {
       }}
       aria-labelledby="contact-heading"
     >
+      <div
+        ref={ariaLiveRef}
+        className="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+      />
+
       <motion.div
         className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-br from-teal-100/30 to-blue-100/20 rounded-full blur-3xl opacity-60"
         animate={{ scale: isInView ? 1 : 0.8, opacity: isInView ? 0.6 : 0 }}
@@ -115,7 +137,6 @@ const Contact = () => {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Contact Info */}
           <motion.div
             className="space-y-10"
             variants={{
@@ -128,8 +149,7 @@ const Contact = () => {
             }}
           >
             <p className="text-lg text-gray-600 font-[Inter]">
-              Have a project in mind? I’d love to hear about it. Use the form or
-              reach out directly.
+              Have a project in mind? I’d love to hear about it. Use the form or reach out directly.
             </p>
 
             <div className="space-y-6">
@@ -166,9 +186,8 @@ const Contact = () => {
             </div>
           </motion.div>
 
-          {/* Form */}
           <motion.form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit, handleValidationErrors)}
             className="bg-white rounded-2xl p-8 shadow-md border border-gray-100"
             variants={{
               hidden: { x: 50, opacity: 0 },
@@ -180,92 +199,44 @@ const Contact = () => {
             }}
           >
             <div className="space-y-6">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-800 mb-1"
-                >
-                  Name
-                </label>
-                <Input
-                  id="name"
-                  {...register("name", { required: "Name is required" })}
-                  className="w-full transition duration-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                />
-                {errors.name && (
-                  <p className="text-sm text-red-500 mt-1">
-                    {errors.name.message}
-                  </p>
-                )}
-              </div>
+              {["name", "email", "subject"].map((field) => (
+                <div className="relative z-0 w-full group" key={field}>
+                  <input
+                    type={field === "email" ? "email" : "text"}
+                    id={field}
+                    {...register(field as keyof FormData, {
+                      required: `${field[0].toUpperCase() + field.slice(1)} is required`,
+                    })}
+                    placeholder=" "
+                    className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 pt-4 pb-2.5 text-sm text-gray-900 focus:border-yellow-400 focus:outline-none focus:ring-0"
+                  />
+                  <label
+                    htmlFor={field}
+                    className="absolute top-2 left-0 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-200 peer-placeholder-shown:translate-y-2.5 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-yellow-600"
+                  >
+                    {field[0].toUpperCase() + field.slice(1)}
+                  </label>
+                </div>
+              ))}
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-800 mb-1"
-                >
-                  Email
-                </label>
-                <Input
-                  id="email"
-                  type="email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Enter a valid email address",
-                    },
+              <div className="relative z-0 w-full group">
+                <textarea
+                  id="message"
+                  rows={5}
+                  {...register("message", {
+                    required: "Message is required",
                   })}
-                  className="w-full transition duration-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                  placeholder=" "
+                  className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 pt-4 pb-2.5 text-sm text-gray-900 focus:border-yellow-400 focus:outline-none focus:ring-0"
                 />
-                {errors.email && (
-                  <p className="text-sm text-red-500 mt-1">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-gray-800 mb-1"
-                >
-                  Subject
-                </label>
-                <Input
-                  id="subject"
-                  {...register("subject", { required: "Subject is required" })}
-                  className="w-full transition duration-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                />
-                {errors.subject && (
-                  <p className="text-sm text-red-500 mt-1">
-                    {errors.subject.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-800 mb-1"
+                  className="absolute top-2 left-0 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-200 peer-placeholder-shown:translate-y-2.5 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-yellow-600"
                 >
                   Message
                 </label>
-                <Textarea
-                  id="message"
-                  rows={5}
-                  placeholder="Tell me about your project..."
-                  {...register("message", { required: "Message is required" })}
-                  className="w-full transition duration-200 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                />
-                {errors.message && (
-                  <p className="text-sm text-red-500 mt-1">
-                    {errors.message.message}
-                  </p>
-                )}
               </div>
 
-              {/* reCAPTCHA */}
               <div className="flex justify-center">
                 <ReCAPTCHA
                   ref={recaptchaRef}
@@ -278,9 +249,7 @@ const Contact = () => {
                 disabled={isSubmitting}
                 className="w-full py-3 rounded-full font-semibold transition-all hover:scale-[1.01] shadow-lg bg-yellow-500 hover:bg-yellow-600 text-gray-900"
               >
-                {isSubmitting ? (
-                  "Sending..."
-                ) : (
+                {isSubmitting ? "Sending..." : (
                   <>
                     Send Message
                     <Send className="ml-2 h-5 w-5" />

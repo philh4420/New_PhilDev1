@@ -1,0 +1,23 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"                  # Location of package.json and package-lock.json
+    schedule:
+      interval: "weekly"            # Check for updates every week
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    allow:
+      - dependency-type: "direct"   # Only update direct dependencies (React, Vite, etc.)
+    ignore:
+      - dependency-name: "react"
+        versions: ["<19.0.0"]       # Ignore updates to React < 19
+      - dependency-name: "vite"
+        versions: ["<6.3.5"]        # Ignore Vite versions older than your current
+
+  # Optional: Keep GitHub Actions workflows updated too
+  - package-ecosystem: "github-actions"
+    directory: "/"                  # Workflow files live at root in .github/workflows/
+    schedule:
+      interval: "weekly"

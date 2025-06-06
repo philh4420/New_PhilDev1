@@ -197,7 +197,9 @@ const Services = () => {
           </h2>
           <div className="w-24 h-1 mx-auto mt-4 bg-gradient-to-r from-teal-400 via-yellow-400 to-orange-400 rounded-full lg:w-50" />
           <p className="text-lg sm:text-xl text-gray-700 mt-4 font-[Inter]">
-            Future-ready solutions tailored to your next leap.
+            Modern front-end solutions designed to elevate your digital presence
+          </p><p className="text-lg sm:text-xl text-gray-700 mt-4 font-[Inter]">
+             and elevate your brand and drive results.
           </p>
         </motion.div>
 

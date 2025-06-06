@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Player } from "@lottiefiles/react-lottie-player";
+import Lottie from "lottie-react";
 import { useToast } from "@/hooks/use-toast"; // assumes your toast hook exists
 
 const NotFound = () => {

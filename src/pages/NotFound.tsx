@@ -14,7 +14,8 @@ const NotFound = () => {
   const getContextMessage = () => {
     const path = location.pathname.toLowerCase();
     if (path.includes("blog")) return "This blog post might have been moved.";
-    if (path.includes("project")) return "That project might not exist anymore.";
+    if (path.includes("project"))
+      return "That project might not exist anymore.";
     if (path.includes("dashboard")) return "Dashboard route not found.";
     return "The page you’re looking for doesn’t exist.";
   };
@@ -25,7 +26,8 @@ const NotFound = () => {
       console.warn("[404] Invalid route accessed:", location.pathname);
     }
 
-    const visits = parseInt(sessionStorage.getItem("notfound-visits") || "0", 10) + 1;
+    const visits =
+      parseInt(sessionStorage.getItem("notfound-visits") || "0", 10) + 1;
     sessionStorage.setItem("notfound-visits", visits.toString());
 
     if (visits > 1) {
@@ -81,8 +83,8 @@ const NotFound = () => {
               loop
               src="/lottie/404.json"
               className="w-full h-full"
-              onEvent={(event) => {
-                if (event === "error" && fallbackRef.current) {
+              onError={() => {
+                if (fallbackRef.current) {
                   fallbackRef.current.style.display = "block";
                 }
               }}

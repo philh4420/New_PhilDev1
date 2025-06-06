@@ -14,11 +14,12 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const AppRoutes = () => {
+// ✅ Must be used inside a Router
+const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Index />} />
         <Route path="*" element={<NotFound />} />
@@ -33,7 +34,7 @@ const App = () => (
       <Toaster />
       {/* <Sonner /> */}
       <BrowserRouter>
-        <AppRoutes />
+        <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

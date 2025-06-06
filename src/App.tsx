@@ -7,14 +7,16 @@ import {
   Routes,
   Route,
   useLocation,
+  Navigate,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// ✅ Must be used inside a Router
+// ✅ Animated route transitions
 const AnimatedRoutes = () => {
   const location = useLocation();
 
@@ -22,12 +24,18 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Index />} />
+
+        {/* 🛑 Prevent access to NotFound via direct /NotFound path */}
+        <Route path="/NotFound" element={<Navigate to="*" replace />} />
+
+        {/* ✅ Catch-all for unknown routes */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
   );
 };
 
+// ✅ App wrapper with all providers
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>

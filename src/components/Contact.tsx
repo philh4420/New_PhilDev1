@@ -56,7 +56,8 @@ const Contact = () => {
 
       toast({
         title: "Message sent!",
-        description: "Thanks for reaching out — I’ll respond within 3 business days.",
+        description:
+          "Thanks for reaching out — I’ll respond within 3 business days.",
         variant: "success",
       });
 
@@ -72,12 +73,14 @@ const Contact = () => {
       console.error("EmailJS Error:", error);
       toast({
         title: "Failed to send message",
-        description: "Please try again or email me directly: info@phils-portfolio.co.uk",
+        description:
+          "Please try again or email me directly: info@phils-portfolio.co.uk",
         variant: "destructive",
       });
 
       if (ariaLiveRef.current) {
-        ariaLiveRef.current.innerText = "There was an error sending the message.";
+        ariaLiveRef.current.innerText =
+          "There was an error sending the message.";
       }
     }
   };
@@ -127,14 +130,24 @@ const Contact = () => {
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <header className="text-center mb-16">
+        <header className="text-center mb-16 sm:mb-8">
+          <h2
+            id="contact-heading"
+            className="text-4xl sm:text-6xl font-bold font-[Poppins] bg-gradient-to-r from-gray-900 via-teal-700 to-gray-900 bg-clip-text text-transparent mb-4"
+          >
+            Let's Talk
+          </h2>
+          <div className="w-24 h-1 mx-auto mt-4 bg-gradient-to-r from-teal-400 via-yellow-400 to-orange-400 rounded-full lg:w-50"/>
+        </header>
+
+        {/* <header className="text-center mb-16">
           <h2
             id="contact-heading"
             className="text-4xl sm:text-5xl font-bold font-[Poppins] text-gray-800"
           >
             Let's Talk
           </h2>
-        </header>
+        </header> */}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <motion.div
@@ -149,7 +162,8 @@ const Contact = () => {
             }}
           >
             <p className="text-lg text-gray-600 font-[Inter]">
-              Have a project in mind? I’d love to hear about it. Use the form or reach out directly.
+              Have a project in mind? I’d love to hear about it. Use the form or
+              reach out directly.
             </p>
 
             <div className="space-y-6">
@@ -205,7 +219,9 @@ const Contact = () => {
                     type={field === "email" ? "email" : "text"}
                     id={field}
                     {...register(field as keyof FormData, {
-                      required: `${field[0].toUpperCase() + field.slice(1)} is required`,
+                      required: `${
+                        field[0].toUpperCase() + field.slice(1)
+                      } is required`,
                     })}
                     placeholder=" "
                     className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 pt-4 pb-2.5 text-sm text-gray-900 focus:border-yellow-400 focus:outline-none focus:ring-0"
@@ -249,7 +265,9 @@ const Contact = () => {
                 disabled={isSubmitting}
                 className="w-full py-3 rounded-full font-semibold transition-all hover:scale-[1.01] shadow-lg bg-yellow-500 hover:bg-yellow-600 text-gray-900"
               >
-                {isSubmitting ? "Sending..." : (
+                {isSubmitting ? (
+                  "Sending..."
+                ) : (
                   <>
                     Send Message
                     <Send className="ml-2 h-5 w-5" />

@@ -28,74 +28,88 @@ const Portfolio: React.FC = () => {
   const [lightboxIsOpen, setLightboxIsOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<number>(0);
 
-  const projects: Project[] = useMemo(() => [
-    {
-      title: "Weather App",
-      description: "Real-time weather updates with interactive UI.",
-      tech: ["HTML5", "CSS3", "JavaScript", "Weather and OpenWeatherMap API's"],
-      image: "/assets/img/Weather-App1.webp",
-      liveUrl: "https://weather-app.phils-portfolio.co.uk/",
-    },
-    {
-      title: "E-commerce Platform",
-      description: "Modern shopping experience with responsive design.",
-      tech: ["HTML5", "CSS3", "JavaScript"],
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
-      liveUrl: "#",
-    },
-    {
-      title: "Restaurant Website",
-      description: "Elegant dining website with interactive menu.",
-      tech: ["HTML5", "CSS Grid", "JavaScript"],
-      image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop",
-      liveUrl: "#",
-    },
-    {
-      title: "Creative Agency",
-      description: "Bold portfolio site with smooth animations.",
-      tech: ["CSS3", "JavaScript", "GSAP"],
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-      liveUrl: "#",
-    },
-    {
-      title: "Business Landing",
-      description: "Professional website with clean UI and UX.",
-      tech: ["HTML5", "Tailwind CSS", "JavaScript"],
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
-      liveUrl: "#",
-    },
-    {
-      title: "SaaS Dashboard",
-      description: "Intuitive dashboards with clean data visualization.",
-      tech: ["CSS3", "JavaScript", "Chart.js"],
-      image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop",
-      liveUrl: "#",
-    },
-    {
-      title: "Portfolio Site",
-      description: "Minimalist, mobile-first showcase site.",
-      tech: ["HTML5", "CSS Grid", "Vanilla JS"],
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop",
-      liveUrl: "#",
-    },
-  ], []);
+  const projects: Project[] = useMemo(
+    () => [
+      {
+        title: "Weather App",
+        description: "Real-time weather updates with interactive UI.",
+        tech: [
+          "HTML5",
+          "CSS3",
+          "JavaScript",
+          "Weather and OpenWeatherMap API's",
+        ],
+        image: "/assets/img/Weather-App1.webp",
+        liveUrl: "https://weather-app.phils-portfolio.co.uk/",
+      },
+      {
+        title: "E-commerce Platform",
+        description: "Modern shopping experience with responsive design.",
+        tech: ["HTML5", "CSS3", "JavaScript"],
+        image:
+          "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+        liveUrl: "#",
+      },
+      {
+        title: "Restaurant Website",
+        description: "Elegant dining website with interactive menu.",
+        tech: ["HTML5", "CSS Grid", "JavaScript"],
+        image:
+          "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop",
+        liveUrl: "#",
+      },
+      {
+        title: "Creative Agency",
+        description: "Bold portfolio site with smooth animations.",
+        tech: ["CSS3", "JavaScript", "GSAP"],
+        image:
+          "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+        liveUrl: "#",
+      },
+      {
+        title: "Business Landing",
+        description: "Professional website with clean UI and UX.",
+        tech: ["HTML5", "Tailwind CSS", "JavaScript"],
+        image:
+          "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+        liveUrl: "#",
+      },
+      {
+        title: "SaaS Dashboard",
+        description: "Intuitive dashboards with clean data visualization.",
+        tech: ["CSS3", "JavaScript", "Chart.js"],
+        image:
+          "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop",
+        liveUrl: "#",
+      },
+      {
+        title: "Portfolio Site",
+        description: "Minimalist, mobile-first showcase site.",
+        tech: ["HTML5", "CSS Grid", "Vanilla JS"],
+        image:
+          "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop",
+        liveUrl: "#",
+      },
+    ],
+    []
+  );
 
   const allTech = useMemo(() => {
     const set = new Set<string>();
-    projects.forEach(p => p.tech.forEach(t => set.add(t)));
+    projects.forEach((p) => p.tech.forEach((t) => set.add(t)));
     return Array.from(set).sort();
   }, [projects]);
 
   const filteredProjects = useMemo(() => {
     if (selectedTech.length === 0) return projects;
-    return projects.filter(p => selectedTech.every(t => p.tech.includes(t)));
+    return projects.filter((p) =>
+      selectedTech.every((t) => p.tech.includes(t))
+    );
   }, [projects, selectedTech]);
 
   const handleFilterToggle = (tech: string) => {
-    setSelectedTech(prev =>
-      prev.includes(tech)
-        ? prev.filter(t => t !== tech)
-        : [...prev, tech]
+    setSelectedTech((prev) =>
+      prev.includes(tech) ? prev.filter((t) => t !== tech) : [...prev, tech]
     );
   };
 
@@ -111,7 +125,7 @@ const Portfolio: React.FC = () => {
   };
 
   const closeLightbox = () => setLightboxIsOpen(false);
-    return (
+  return (
     <motion.section
       ref={sectionRef}
       id="portfolio"
@@ -133,14 +147,25 @@ const Portfolio: React.FC = () => {
             visible: { y: 0, opacity: 1, transition: { duration: 0.8 } },
           }}
         >
-          <h2
+          <header className="text-center mb-16 sm:mb-8">
+            <h2
+              id="portfolio-heading"
+              className="text-4xl sm:text-6xl font-bold font-[Poppins] bg-gradient-to-r from-gray-900 via-teal-700 to-gray-900 bg-clip-text text-transparent mb-4"
+            >
+              Selected Projects
+            </h2>
+            <div className="w-24 h-1 mx-auto mt-4 bg-gradient-to-r from-teal-400 via-yellow-400 to-orange-400 rounded-full lg:w-50" />
+          </header>
+
+          {/* <h2
             id="portfolio-heading"
             className="text-5xl font-bold text-gray-900 font-[Poppins] mb-4"
           >
             Selected Projects
-          </h2>
+          </h2> */}
           <p className="text-xl text-gray-700 font-[Inter] max-w-3xl mx-auto">
-            A curated selection of my recent frontend work emphasizing speed, style, and accessibility.
+            A curated selection of my recent frontend work emphasizing speed,
+            style, and accessibility.
           </p>
         </motion.div>
 
@@ -177,7 +202,12 @@ const Portfolio: React.FC = () => {
 
         {/* Mobile Carousel */}
         <div className="block md:hidden">
-          <Carousel responsive={responsive} infinite autoPlay autoPlaySpeed={4000}>
+          <Carousel
+            responsive={responsive}
+            infinite
+            autoPlay
+            autoPlaySpeed={4000}
+          >
             {filteredProjects.map((project, index) => (
               <div key={index} className="px-2">
                 <ProjectCard
@@ -319,4 +349,3 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 );
 
 export default Portfolio;
-

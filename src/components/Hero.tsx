@@ -175,35 +175,42 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 text-center">
         <div className="max-w-4xl mx-auto">
           <motion.h1
-            id="hero-heading"
-            className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 font-[Poppins] drop-shadow-2xl"
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            variants={{
-              visible: { transition: { staggerChildren: 0.15 } },
-              hidden: {},
-            }}
-          >
-            {["Crafting", "Seamless,", "Modern"].map((word, i) => (
-              <motion.span
-                key={i}
-                className="inline-block"
-                variants={{
-                  hidden: { y: 100, opacity: 0, rotateX: 90 },
-                  visible: {
-                    y: 0,
-                    opacity: 1,
-                    rotateX: 0,
-                    transition: { type: "spring", stiffness: 80, damping: 20 },
-                  },
-                }}
-              >
-                {i === 1 ? <><br />{word}</> : ` ${word}`}
-              </motion.span>
-            ))}{" "}
-            <br />
-            <span className="inline-block text-teal-200" id="typed-output" />
-          </motion.h1>
+  id="hero-heading"
+  className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 font-[Poppins] drop-shadow-2xl"
+  initial="hidden"
+  animate={isInView ? "visible" : "hidden"}
+  variants={{
+    visible: { transition: { staggerChildren: 0.15 } },
+    hidden: {},
+  }}
+>
+  {["Crafting", "Seamless,", "Modern"].map((word, i) => (
+    <motion.span
+      key={i}
+      className="inline-block"
+      variants={{
+        hidden: { y: 100, opacity: 0, rotateX: 90 },
+        visible: {
+          y: 0,
+          opacity: 1,
+          rotateX: 0,
+          transition: { type: "spring", stiffness: 80, damping: 20 },
+        },
+      }}
+    >
+      {i === 1 ? (
+        <>
+          <br /> {word}{" "}
+        </>
+      ) : (
+        ` ${word} `
+      )}
+    </motion.span>
+  ))}
+
+  <br />
+  <span className="inline-block text-teal-200" id="typed-output" />
+</motion.h1>
 
           <motion.p
             className="text-base sm:text-xl lg:text-2xl text-white mb-8 max-w-2xl mx-auto font-[Inter] drop-shadow-lg"

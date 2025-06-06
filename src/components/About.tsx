@@ -69,7 +69,9 @@ const About = () => {
                   {["HTML", "CSS", "JS", "SQL"].map((tech) => (
                     <div
                       key={tech}
-                      className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-xs sm:text-sm font-bold ${techStyles[tech as keyof typeof techStyles]}`}
+                      className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-xs sm:text-sm font-bold ${
+                        techStyles[tech as keyof typeof techStyles]
+                      }`}
                       aria-label={tech}
                     >
                       {tech}
@@ -84,20 +86,25 @@ const About = () => {
               <div className="absolute top-1/3 left-4 w-1 h-1 bg-blue-400 rounded-full opacity-50 animate-pulse delay-2000" />
             </motion.div>
           </motion.div>
-                    {/* Text Column */}
+          {/* Text Column */}
           <motion.div
             initial={{ x: 50, opacity: 0 }}
             animate={isInView ? { x: 0, opacity: 1 } : {}}
-            transition={{ type: "spring", stiffness: 90, damping: 18, delay: 0.1 }}
+            transition={{
+              type: "spring",
+              stiffness: 90,
+              damping: 18,
+              delay: 0.1,
+            }}
           >
             <header className="mb-6 sm:mb-8">
               <h2
                 id="about-heading"
-                className="text-4xl sm:text-6xl font-bold font-[Poppins] bg-gradient-to-r from-gray-900 via-teal-700 to-gray-900 bg-clip-text text-transparent mb-4"
+                className="text-4xl sm:text-6xl font-bold font-[Poppins] bg-gradient-to-r from-gray-900 via-teal-700 to-gray-900 bg-clip-text text-transparent mb-4 "
               >
                 About Me
               </h2>
-              <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-teal-500 to-amber-400 rounded-full" />
+              <div className="w-24 h-1 mt-4 bg-gradient-to-r from-teal-400 via-yellow-400 to-orange-400 rounded-full lg:w-50" />
             </header>
 
             <div className="space-y-5 sm:space-y-6 text-base sm:text-lg font-[Inter] leading-relaxed text-gray-700">
@@ -106,21 +113,32 @@ const About = () => {
                 animate={isInView ? { y: 0, opacity: 1 } : {}}
                 transition={{ delay: 0.2 }}
               >
-                I’m a <span className="font-semibold text-teal-700">creative frontend developer</span> focused on building accessible, high-performance websites with clean, scalable code.
+                Hi, I'm Phil — a{" "}
+                <span className="font-semibold text-teal-700">
+                  curious frontend developer
+                </span>{" "}
+                who’s passionate about crafting fast, accessible, and visually
+                engaging websites using clean, maintainable code.
               </motion.p>
               <motion.p
                 initial={{ y: 20, opacity: 0 }}
                 animate={isInView ? { y: 0, opacity: 1 } : {}}
                 transition={{ delay: 0.3 }}
               >
-                I’ve worked across startups and agencies, shipping projects with HTML, Tailwind, and modern frameworks like React and Svelte.
+                I love experimenting with modern tools like React, Tailwind CSS,
+                and Framer Motion to create interfaces that feel smooth and
+                intuitive — while always keeping performance and usability in
+                focus.
               </motion.p>
               <motion.p
                 initial={{ y: 20, opacity: 0 }}
                 animate={isInView ? { y: 0, opacity: 1 } : {}}
                 transition={{ delay: 0.4 }}
               >
-                On the backend, I’m comfortable with Python and MySQL — enabling full-stack delivery and better collaboration with backend teams.
+                While my focus is on the frontend, I'm continuing to grow my
+                understanding of backend technologies like Python and MySQL —
+                giving me a better grasp of full-stack workflows and how
+                everything fits together.
               </motion.p>
               <motion.p
                 initial={{ y: 20, opacity: 0 }}
@@ -128,7 +146,8 @@ const About = () => {
                 transition={{ delay: 0.5 }}
                 className="text-gray-600 italic"
               >
-                When I’m not coding, you’ll find me leveling up in Division 2 or honing my 8-ball pool skills.
+                Outside of coding, you’ll find me sharpening my aim in Division
+                2 or sinking shots on the 8-ball pool table.
               </motion.p>
             </div>
 
@@ -140,7 +159,9 @@ const About = () => {
             >
               <button
                 onClick={() =>
-                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+                  document
+                    .getElementById("contact")
+                    ?.scrollIntoView({ behavior: "smooth" })
                 }
                 className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-gradient-to-r from-teal-600 to-teal-700 text-white font-medium hover:from-teal-700 hover:to-teal-800 transition-transform duration-300 hover:scale-105 shadow-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
               >

@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import legacy from "@vitejs/plugin-legacy";
 import path from "path";
-
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -11,7 +11,9 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-
+    legacy({
+      targets: ['defaults', 'not IE 11'], // legacy browser support
+    }),
   ],
   resolve: {
     alias: {
@@ -20,5 +22,11 @@ export default defineConfig(({ mode }) => ({
   },
   define: {
     __WS_TOKEN__: '""', // shim for dev-only token if needed
-  }
+  },
+  build: {
+    target: "es2017", // JS output target for build
+  },
+  esbuild: {
+    target: "es2017", // Target for dev (esbuild transform)
+  },
 }));

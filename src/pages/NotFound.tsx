@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Player } from "@lottiefiles/react-lottie-player";
@@ -9,8 +9,8 @@ const NotFound = () => {
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(5);
   const { toast } = useToast();
+  const fallbackRef = useRef<HTMLVideoElement | null>(null);
 
-  // 🧠 Smart context-aware error message
   const getContextMessage = () => {
     const path = location.pathname.toLowerCase();
     if (path.includes("blog")) return "This blog post might have been moved.";
@@ -19,7 +19,7 @@ const NotFound = () => {
     return "The page you’re looking for doesn’t exist.";
   };
 
-  // ✅ Avoid console noise when route is "/NotFound" (intentional route)
+  // Toast + Countdown
   useEffect(() => {
     if (!location.pathname.toLowerCase().includes("notfound")) {
       console.warn("[404] Invalid route accessed:", location.pathname);
@@ -43,7 +43,7 @@ const NotFound = () => {
     return () => clearInterval(timer);
   }, [location.pathname, toast]);
 
-  // ⏱ Redirect after countdown
+  // Redirect to homepage when countdown hits 0
   useEffect(() => {
     if (countdown === 0) {
       navigate("/");
@@ -60,7 +60,7 @@ const NotFound = () => {
         exit={{ opacity: 0, y: -30 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
-        {/* 🫧 Background Animation */}
+        {/* 🫧 Animated Background */}
         <div className="absolute inset-0 pointer-events-none -z-10">
           <motion.div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[420px] h-[420px] bg-teal-300/20 dark:bg-teal-500/10 blur-3xl rounded-full"
@@ -69,25 +69,41 @@ const NotFound = () => {
           />
         </div>
 
-        {/* 📦 Toast layer z-index support */}
+        {/* 📦 Toast Layer - ensures z-index priority */}
         <div className="absolute top-0 left-0 w-full z-50 pointer-events-none" />
 
-        {/* 🧠 Main Content */}
+        {/* 📦 Main Content */}
         <div className="text-center max-w-xl w-full z-10">
-          {/* 🎞 Lottie Animation */}
-          <Player
-            autoplay
-            loop
-            src="/lottie/404.json"
-            className="w-64 h-64 mx-auto mb-6"
-          />
+          {/* 🎞 Lottie Animation or fallback */}
+          <div className="w-64 h-64 mx-auto mb-6 relative">
+            <Player
+              autoplay
+              loop
+              src="/lottie/404.json"
+              className="w-full h-full"
+              onEvent={(event) => {
+                if (event === "error" && fallbackRef.current) {
+                  fallbackRef.current.style.display = "block";
+                }
+              }}
+            />
+            <video
+              ref={fallbackRef}
+              src="/lottie/404.webm"
+              className="w-full h-full absolute top-0 left-0 hidden"
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          </div>
 
-          {/* ✨ Error Code */}
+          {/* ✨ Error Title */}
           <h1 className="text-6xl sm:text-7xl font-extrabold text-teal-600 dark:text-yellow-400 mb-4 tracking-tight">
             404
           </h1>
 
-          {/* 🧾 Smart Message */}
+          {/* 🧠 Smart Message */}
           <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 font-medium mb-4">
             {getContextMessage()}
           </p>
@@ -99,7 +115,7 @@ const NotFound = () => {
             {countdown !== 1 && "s"}...
           </p>
 
-          {/* 🚪 Manual Fallback */}
+          {/* 🚪 Manual Return Button */}
           <Link
             to="/"
             className="inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 dark:focus:ring-offset-slate-900"

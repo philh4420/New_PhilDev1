@@ -5,7 +5,6 @@
     <title>404 - Page Not Found</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="404 - Page Not Found" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Phil Higdon" />
     <meta name="theme-color" content="#0C7D9D" />
 
@@ -15,15 +14,15 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png" />
     <link rel="manifest" href="/favicon_io/site.webmanifest" />
     <link rel="shortcut icon" href="/favicon_io/favicon.ico" />
-
-    <!-- Android Specific -->
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon_io/android-chrome-192x192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon_io/android-chrome-512x512.png" />
 
-    <!-- Preconnect for Performance -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/404.css" />
 
     <!-- Open Graph -->
     <meta property="og:title" content="Phil Higdon – Frontend Developer" />
@@ -38,73 +37,26 @@
     <meta name="twitter:title" content="Phil Higdon – Frontend Developer" />
     <meta name="twitter:description" content="Portfolio site of Phil Higdon, a UK-based frontend developer." />
     <meta name="twitter:image" content="https://phils-portfolio.co.uk/og-cover.png" />
+
     <!-- Redirect after 5 seconds -->
     <meta http-equiv="refresh" content="5; url=/" />
 
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        font-family: 'Inter', sans-serif;
-        background: linear-gradient(to bottom right, #f1f5f9, #ffffff, #ccfbf1);
-        color: #334155;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        text-align: center;
-        padding: 1rem;
-      }
-      .container {
-        max-width: 640px;
-        width: 100%;
-      }
-      .logo {
-        width: 160px;
-        margin: 0 auto 1.5rem;
-      }
-      .title {
-        font-size: 4rem;
-        font-weight: 800;
-        color: #0f766e;
-        margin-bottom: 1rem;
-      }
-      .message {
-        font-size: 1.25rem;
-        margin-bottom: 1rem;
-      }
-      .subtext {
-        font-size: 0.95rem;
-        color: #64748b;
-        margin-bottom: 2rem;
-      }
-      .button {
-        background-color: #facc15;
-        color: #1f2937;
-        padding: 0.75rem 1.5rem;
-        border-radius: 9999px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-block;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: all 0.2s ease-in-out;
-      }
-      .button:hover {
-        background-color: #fbbf24;
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-      }
-    </style>
   </head>
+
   <body>
     <div class="container">
-      <!-- Fallback animation -->
-      <img
-        src="https://assets10.lottiefiles.com/temp/lf20_error_404.png"
-        alt="404 Illustration"
-        class="logo"
-      />
+      <div class="animation" aria-hidden="true">
+        <!-- Use local .webm fallback or fallback image -->
+        <video autoplay loop muted playsinline width="160" height="160">
+          <source src="/lottie/404.webm" type="video/webm" />
+          <img
+            src="https://assets10.lottiefiles.com/temp/lf20_error_404.png"
+            alt="404 Error illustration"
+            width="160"
+            height="160"
+          />
+        </video>
+      </div>
 
       <h1 class="title">404</h1>
 

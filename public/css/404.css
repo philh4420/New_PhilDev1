@@ -7,7 +7,7 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* Body Styling (replaces @apply block) */
+/* Body Styling*/
 body {
   min-height: 100vh;
   display: flex;
@@ -16,21 +16,21 @@ body {
   padding-left: 1rem;
   padding-right: 1rem;
   background-image: linear-gradient(to bottom right, #f1f5f9, #ffffff, #ccfbf1);
-  color: #1e293b; /* text-slate-800 */
+  color: #1e293b;
   font-family: sans-serif;
 }
 
 /* Container */
 .container {
   text-align: center;
-  max-width: 36rem; /* max-w-xl */
+  max-width: 36rem
   width: 100%;
 }
 
 /* Animation */
 .animation {
-  width: 10rem; /* w-40 */
-  height: 10rem; /* h-40 */
+  width: 10rem;
+  height: 10rem;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1.5rem;
@@ -38,53 +38,53 @@ body {
 
 /* Title */
 .title {
-  font-size: 3.75rem; /* text-6xl */
-  font-weight: 800; /* font-extrabold */
-  color: #0d9488; /* text-teal-600 */
+  font-size: 3.75rem;
+  font-weight: 800;
+  color: #0d9488;
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
 }
 
 @media (min-width: 640px) {
   .title {
-    font-size: 4.5rem; /* sm:text-7xl */
+    font-size: 4.5rem;
   }
 }
 
 /* Message */
 .message {
-  font-size: 1.125rem; /* text-lg */
-  font-weight: 500; /* font-medium */
+  font-size: 1.125rem;
+  font-weight: 500;
   margin-bottom: 0.5rem;
 }
 
 @media (min-width: 640px) {
   .message {
-    font-size: 1.25rem; /* sm:text-xl */
+    font-size: 1.25rem;
   }
 }
 
 /* Subtext */
 .subtext {
-  font-size: 0.875rem; /* text-sm */
-  color: #64748b; /* text-slate-500 */
+  font-size: 0.875rem;
+  color: #64748b;
   margin-bottom: 1.5rem;
 }
 
 /* Button */
 .button {
   display: inline-block;
-  background-color: #facc15; /* bg-yellow-400 */
-  color: #1f2937; /* text-slate-900 */
-  font-weight: 600; /* font-semibold */
-  padding: 0.75rem 1.5rem; /* px-6 py-3 */
-  border-radius: 9999px; /* rounded-full */
+  background-color: #facc15;
+  color: #1f2937;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
   text-decoration: none;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
 }
 
 .button:hover {
-  background-color: #fbbf24; /* hover:bg-yellow-500 */
+  background-color: #fbbf24;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }

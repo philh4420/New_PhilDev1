@@ -1,31 +1,90 @@
-@import "tailwindcss/preflight";
-@import "tailwindcss/utilities";
-
-/* Custom scoped styles */
+/* Reset */
+* {
+  box-sizing: border-box;
+}
 body {
-  @apply min-h-screen bg-gradient-to-br from-slate-100 via-white to-teal-50 text-slate-800 flex items-center justify-center px-4 font-sans dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 dark:text-slate-200;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
 }
 
+/* Body Styling (replaces @apply block) */
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-image: linear-gradient(to bottom right, #f1f5f9, #ffffff, #ccfbf1);
+  color: #1e293b; /* text-slate-800 */
+  font-family: sans-serif;
+}
+
+/* Container */
 .container {
-  @apply text-center max-w-xl;
+  text-align: center;
+  max-width: 36rem; /* max-w-xl */
+  width: 100%;
 }
 
+/* Animation */
 .animation {
-  @apply w-40 h-40 mx-auto mb-6;
+  width: 10rem; /* w-40 */
+  height: 10rem; /* h-40 */
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
 }
 
+/* Title */
 .title {
-  @apply text-6xl sm:text-7xl font-extrabold text-teal-600 dark:text-yellow-400 mb-4 tracking-tight;
+  font-size: 3.75rem; /* text-6xl */
+  font-weight: 800; /* font-extrabold */
+  color: #0d9488; /* text-teal-600 */
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
+@media (min-width: 640px) {
+  .title {
+    font-size: 4.5rem; /* sm:text-7xl */
+  }
+}
+
+/* Message */
 .message {
-  @apply text-lg sm:text-xl font-medium mb-2;
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 500; /* font-medium */
+  margin-bottom: 0.5rem;
 }
 
+@media (min-width: 640px) {
+  .message {
+    font-size: 1.25rem; /* sm:text-xl */
+  }
+}
+
+/* Subtext */
 .subtext {
-  @apply text-sm text-slate-500 dark:text-slate-400 mb-6;
+  font-size: 0.875rem; /* text-sm */
+  color: #64748b; /* text-slate-500 */
+  margin-bottom: 1.5rem;
 }
 
+/* Button */
 .button {
-  @apply inline-block bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-semibold px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 dark:focus:ring-offset-slate-900;
+  display: inline-block;
+  background-color: #facc15; /* bg-yellow-400 */
+  color: #1f2937; /* text-slate-900 */
+  font-weight: 600; /* font-semibold */
+  padding: 0.75rem 1.5rem; /* px-6 py-3 */
+  border-radius: 9999px; /* rounded-full */
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+  background-color: #fbbf24; /* hover:bg-yellow-500 */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate"; // ✅ ESM import (instead of require)
 
 const config: Config = {
   content: [
@@ -62,7 +63,6 @@ const config: Config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // ✅ ADDITION: custom hex color for accent
         customAccent: "#F9A826",
       },
       borderRadius: {
@@ -91,7 +91,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate], // ✅ updated
 };
 
 export default config;

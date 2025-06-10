@@ -189,9 +189,9 @@ const Contact = () => {
             </div>
 
             <div className="p-6 bg-gray-50 border rounded-xl">
-              <h4 className="font-semibold mb-2 font-[Poppins] text-gray-800">
+              <h3 className="font-semibold mb-2 font-[Poppins] text-gray-800">
                 Why Work With Me?
-              </h4>
+              </h3>
               <ul className="space-y-1 text-sm text-gray-700 font-[Inter]">
                 <li>✓ 5+ years frontend experience</li>
                 <li>✓ Fast turnaround & ongoing support</li>

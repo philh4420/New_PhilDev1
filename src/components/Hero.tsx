@@ -184,7 +184,7 @@ const Hero = () => {
     hidden: {},
   }}
 >
-  {["Crafting", "Seamless,", "Modern"].map((word, i) => (
+  {["Crafting,", "Seamless,", "Modern"].map((word, i) => (
     <motion.span
       key={i}
       className="inline-block"

@@ -51,17 +51,21 @@ const About = () => {
               aria-label="Profile photo with frontend tech stack"
             >
               <div className="w-full h-full flex flex-col items-center justify-center z-10 p-6 sm:p-8 relative">
-                <motion.div
-                  className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden shadow-xl mb-4"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  <img
-                    src="/assets/img/profile-pic-1.webp"
-                    alt="Phil's avatar"
-                    className="w-full h-full object-cover rounded-full"
-                    loading="lazy"
-                  />
-                </motion.div>
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, ease: "easeOut" }}
+  whileHover={{ scale: 1.06 }}
+  className="relative mx-auto w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden bg-gradient-to-tr from-teal-100 via-white to-yellow-100 shadow-[0_8px_30px_rgba(0,0,0,0.12)] ring-4 ring-white dark:ring-slate-900 transition-all duration-300 ease-out hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
+>
+  <img
+    src="/assets/img/profile-img.webp"
+    alt="Phil Higdon's professional avatar"
+    loading="lazy"
+    className="w-full h-full object-cover rounded-full select-none"
+    draggable={false}
+  />
+</motion.div>
                 <div className="px-4 py-1.5 rounded-full bg-white/30 backdrop-blur-md border border-white/40 text-xs sm:text-sm font-semibold text-gray-800 mb-3">
                   Frontend Developer
                 </div>

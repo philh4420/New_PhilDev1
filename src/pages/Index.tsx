@@ -9,31 +9,31 @@ import Portfolio from "@/components/Portfolio";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
-import LoadingScreen from "@/components/LoadingScreen";
+// import LoadingScreen from "@/components/LoadingScreen";
 
 const Index = () => {
-  const [loadingComplete, setLoadingComplete] = useState(false);
+  // const [loadingComplete, setLoadingComplete] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   // Loader skip: only show on first visit of the session
-  useEffect(() => {
-    const hasLoadedBefore = sessionStorage.getItem("hasLoaded");
-    if (hasLoadedBefore) {
-      setLoadingComplete(true);
-    } else {
-      const timer = setTimeout(() => {
-        setLoadingComplete(true);
-        sessionStorage.setItem("hasLoaded", "true");
-      }, 2500);
-      return () => clearTimeout(timer);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const hasLoadedBefore = sessionStorage.getItem("hasLoaded");
+  //   if (hasLoadedBefore) {
+  //     setLoadingComplete(true);
+  //   } else {
+  //     const timer = setTimeout(() => {
+  //       setLoadingComplete(true);
+  //       sessionStorage.setItem("hasLoaded", "true");
+  //     }, 2500);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, []);
 
   return (
     <>
-      <AnimatePresence>{!loadingComplete && <LoadingScreen />}</AnimatePresence>
+      {/* <AnimatePresence>{!loadingComplete && <LoadingScreen />}</AnimatePresence> */}
 
-      {loadingComplete && (
+      {/* {loadingComplete && ( */}
         <motion.main
           className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-teal-50/20 relative overflow-hidden"
           initial={{ opacity: 0 }}
@@ -69,7 +69,7 @@ const Index = () => {
             <ScrollToTopButton />
           </div>
         </motion.main>
-      )}
+      {/* )} */}
     </>
   );
 };

@@ -43,11 +43,14 @@ const Contact = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/verify-token", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/verify-token`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token }),
+        }
+      );
 
       const result = await res.json();
 

@@ -9,7 +9,7 @@ const app = express();
 
 // ✅ Enable CORS from Vite (localhost:8080)
 app.use(cors({
-  origin: "http://localhost:8080",
+  origin: process.env.FRONTEND_ORIGIN?.split(",") || ["http://localhost:8080"],
   methods: ["POST"],
   allowedHeaders: ["Content-Type"],
 }));

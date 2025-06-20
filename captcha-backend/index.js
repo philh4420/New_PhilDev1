@@ -7,9 +7,19 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Enable CORS from Vite (localhost:8080)
+const allowedOrigins = [
+  "http://localhost:8080",
+  "https://new-phil-dev1.vercel.app"
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_ORIGIN?.split(",") || ["http://localhost:8080"],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["POST"],
   allowedHeaders: ["Content-Type"],
 }));
@@ -41,6 +51,8 @@ app.post("/verify-token", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✅ reCAPTCHA backend running on http://localhost:${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`✅ Server running on port ${process.env.PORT}`);
 });
+
+

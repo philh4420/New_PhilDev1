@@ -24,14 +24,15 @@ const Contact = () => {
 
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
   const ariaLiveRef = useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   const { toast } = useToast();
   const [showSuccess, setShowSuccess] = useState(false);
 
   const onSubmit = async (data: FormData) => {
     const token = recaptchaRef.current?.getValue();
+
     if (!token) {
       toast({
         title: "reCAPTCHA required",
@@ -42,6 +43,25 @@ const Contact = () => {
     }
 
     try {
+      const res = await fetch("http://localhost:5000/verify-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+
+      const result = await res.json();
+
+      if (!result.success) {
+        toast({
+          title: "reCAPTCHA verification failed",
+          description:
+            "Google flagged this submission. Please reload and try again.",
+          variant: "destructive",
+        });
+        recaptchaRef.current?.reset();
+        return;
+      }
+
       await emailjs.send(
         "service_2cclxbm",
         "template_yn3glut",
@@ -137,17 +157,8 @@ const Contact = () => {
           >
             Let's Talk
           </h2>
-          <div className="w-24 h-1 mx-auto mt-4 bg-gradient-to-r from-teal-400 via-yellow-400 to-orange-400 rounded-full lg:w-50"/>
+          <div className="w-24 h-1 mx-auto mt-4 bg-gradient-to-r from-teal-400 via-yellow-400 to-orange-400 rounded-full lg:w-50" />
         </header>
-
-        {/* <header className="text-center mb-16">
-          <h2
-            id="contact-heading"
-            className="text-4xl sm:text-5xl font-bold font-[Poppins] text-gray-800"
-          >
-            Let's Talk
-          </h2>
-        </header> */}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <motion.div
